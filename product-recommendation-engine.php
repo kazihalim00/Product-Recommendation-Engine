@@ -24,3 +24,6 @@ function pre_check_woocommerce_active()
 // Constants
 define('PRE_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('PRE_PLUGIN_URL', plugin_dir_url(__FILE__));
+
+// In product-recommendation-engine.php, add this include
+require_once PRE_PLUGIN_PATH . 'includes/recommender.php';
