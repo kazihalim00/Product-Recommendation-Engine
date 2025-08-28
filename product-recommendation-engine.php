@@ -25,11 +25,10 @@ function pre_check_woocommerce_active()
 define('PRE_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('PRE_PLUGIN_URL', plugin_dir_url(__FILE__));
 
-<<<<<<< HEAD
-// In product-recommendation-engine.php, add this include
+
+
 require_once PRE_PLUGIN_PATH . 'includes/recommender.php';
-=======
-require_once PRE_PLUGIN_PATH . 'includes/recommender.php';
+require_once PRE_PLUGIN_PATH . 'includes/tracker.php';
 
 // Activation: create/update table
 register_activation_hook(__FILE__, 'pre_install');
@@ -62,4 +61,3 @@ function pre_install()
     add_option('pre_recommendation_strategy', 'viewed_together');
     add_option('pre_recommendation_limit', 4);
 }
->>>>>>> 2ee666b (feat: Add database table for user activity on activation)
