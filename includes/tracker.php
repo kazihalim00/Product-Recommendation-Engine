@@ -30,3 +30,47 @@ function pre_get_session_id()
         return null;
     return isset($_COOKIE['pre_sid']) ? sanitize_text_field($_COOKIE['pre_sid']) : null;
 }
+
+
+// Track single product views
+
+add_action('template_redirect', function () {
+    if (!function_exists('is_product') || !is_product())
+        return;
+
+    global $post, $wpdb;
+    if (!$post || $post->post_type !== 'product')
+        return;
+
+    $user_id = get_current_user_id();
+    $session_id = pre_get_session_id();
+
+    // Insert product view into DB (quantity is 1 for a view)
+    $wpdb->insert(
+        $wpdb->prefix . 'pre_user_activity',
+        [
+            'user_id' => $user_id ? intval($user_id) : null,
+            'session_id' => $session_id,
+            'product_id' => intval($post->ID),
+            'action' => 'view',
+            'quantity' => 1,
+        ],
+        ['%d', '%s', '%d', '%s', '%d']
+    );
+
+    // Store last viewed category for recommendations
+    $terms = wp_get_post_terms($post->ID, 'product_cat');
+    if (!is_wp_error($terms) && !empty($terms)) {
+        $cat_id = $terms[0]->term_id;
+        setcookie(
+            'pre_last_cat',
+            (string) $cat_id,
+            time() + 60 * 60 * 24 * 7,
+            COOKIEPATH ?: '/',
+            COOKIE_DOMAIN ?: '',
+            is_ssl(),
+            true
+        );
+        $_COOKIE['pre_last_cat'] = (string) $cat_id;
+    }
+});
