@@ -74,3 +74,38 @@ add_action('template_redirect', function () {
         $_COOKIE['pre_last_cat'] = (string) $cat_id;
     }
 });
+
+// Track purchases and their QUANTITY on thank-you page
+
+add_action('woocommerce_thankyou', function ($order_id) {
+    if (!$order_id || !function_exists('wc_get_order'))
+        return;
+
+    $order = wc_get_order($order_id);
+    if (!$order)
+        return;
+
+    global $wpdb;
+    $user_id = $order->get_user_id();
+    $session_id = $user_id ? null : pre_get_session_id();
+
+    foreach ($order->get_items() as $item) {
+        $pid = $item->get_product_id();
+        $quantity = $item->get_quantity(); // <-- Get the quantity here
+
+        if (!$pid)
+            continue;
+
+        $wpdb->insert(
+            $wpdb->prefix . 'pre_user_activity',
+            [
+                'user_id' => $user_id ? intval($user_id) : null,
+                'session_id' => $session_id,
+                'product_id' => intval($pid),
+                'action' => 'purchase',
+                'quantity' => intval($quantity), // <-- Save the quantity
+            ],
+            ['%d', '%s', '%d', '%s', '%d'] // <-- Add format for quantity
+        );
+    }
+});
