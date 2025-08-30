@@ -53,3 +53,27 @@ if (empty($product_ids) && $strategy === 'trending') {
         $limit
     ));
 }
+
+    // --- FALLBACK STRATEGY: "Last Viewed Category" ---
+    if (empty($product_ids)) {
+        $cat_id = isset($_COOKIE['pre_last_cat']) ? intval($_COOKIE['pre_last_cat']) : 0;
+        if ($cat_id) {
+            $args = [
+                'post_type' => 'product', 'posts_per_page' => $limit, 'post_status' => 'publish',
+                'orderby' => 'rand', 'post__not_in' => $exclude_ids,
+                'tax_query' => [['taxonomy' => 'product_cat', 'field' => 'term_id', 'terms' => $cat_id]],
+            ];
+            return (new WP_Query($args))->posts;
+        }
+    }
+
+    if (!empty($product_ids)) {
+        $args = [
+            'post_type' => 'product', 'post__in' => $product_ids,
+            'posts_per_page' => $limit, 'orderby' => 'post__in',
+        ];
+        return (new WP_Query($args))->posts;
+    }
+
+    return []; // Final return
+
