@@ -61,3 +61,6 @@ function pre_install()
     add_option('pre_recommendation_strategy', 'viewed_together');
     add_option('pre_recommendation_limit', 4);
 }
+if (file_exists(PRE_PLUGIN_PATH . 'admin/settings.php')) {
+    require_once PRE_PLUGIN_PATH . 'admin/settings.php';
+}
