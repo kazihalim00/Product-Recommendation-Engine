@@ -2,7 +2,7 @@
 /*
 Plugin Name: Product Recommendation Engine
 Description: Tracks product views & purchases and shows simple recommendations on product and shop pages.
-Version: 1.0.0
+Version: 1.2.0
 Author: Kazi , Mahedi , Akhi
 */
 
