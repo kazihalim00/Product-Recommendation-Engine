@@ -74,7 +74,40 @@ function pre_get_recommended_products($force_strategy = null)
     }
 
     return []; 
+
+
+
 }
+
+/**
+ * 2️⃣ Shortcode to display recommendations
+ */
+add_shortcode('pre_recommended', function ($atts) {
+    $atts = shortcode_atts(['strategy' => null], $atts);
+    $products = pre_get_recommended_products($atts['strategy']);
+
+    if (!$products)
+        return '';
+
+    $output = '<div class="pre-recommended-products-content">';
+    $output .= '<h2>You Might Also Like</h2>';
+    $output .= '<div class="pre-products-grid">';
+    foreach ($products as $p) {
+        $product = wc_get_product($p->ID);
+        if (!$product) continue;
+
+        $output .= '<div class="pre-product">';
+        $output .= '<a href="' . get_permalink($p->ID) . '">';
+        $output .= $product->get_image('woocommerce_thumbnail');
+        $output .= '<h3>' . $product->get_name() . '</h3>';
+        $output .= '<span class="price">' . $product->get_price_html() . '</span>';
+        $output .= '</a>';
+        $output .= '</div>';
+    }
+    $output .= '</div>';
+    $output .= '</div>';
+    return $output;
+});
 
 
 
