@@ -4,8 +4,9 @@
  * Plugin URI: https://wordpress.org/plugins/product-recommendation-engine/
  * Website URI: http://kazi-elegance.local/shop/?woo-share=vCC6m8nXk2O19dzmoLZ7SnA3vCRTVVq5
  * Description: Tracks product views & purchases and shows simple recommendations on product and shop pages.
- * Version: 1.3.0
+ * Version: 1.4.0
  * License: GPLv2 or later
+ * Plugin Author: Kazi, Mahedi, Akhi
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
 
