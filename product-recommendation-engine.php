@@ -24,6 +24,12 @@ function pre_check_woocommerce_active()
     }
 }
 
+
+// Enqueue styles and scripts
+add_action('wp_enqueue_scripts', function () {
+    wp_enqueue_style('pre-style', PRE_PLUGIN_URL . 'assets/style.css', [], '1.4.0');
+});
+
 // Constants
 define('PRE_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('PRE_PLUGIN_URL', plugin_dir_url(__FILE__));

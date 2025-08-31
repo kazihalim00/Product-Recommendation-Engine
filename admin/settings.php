@@ -55,6 +55,10 @@ add_action('admin_init', function () {
 
 // 3. Callback functions to render the fields
 function pre_strategy_field_callback()
+
+// Function to render the main settings pages
+function pre_render_settings_page()
+>>>>>>> origin/feature-login
 {
     $current_value = get_option('pre_recommendation_strategy', 'viewed_together');
     ?>
