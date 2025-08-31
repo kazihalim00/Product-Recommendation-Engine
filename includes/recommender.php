@@ -112,4 +112,25 @@ add_shortcode('pre_recommended', function ($atts) {
 
 
 
+/**
+ * 3️⃣ Display recommendations after single product content
+ */
+add_action('woocommerce_after_single_product_summary', function () {
+    echo do_shortcode('[pre_recommended]');
+}, 15);
+
+/**
+ * 4️⃣ Display recommendations on the shop page via a modal
+ */
+add_action('woocommerce_after_shop_loop', function () {
+    $strategy = get_option('pre_recommendation_strategy');
+    $shop_strategy = ($strategy === 'viewed_together') ? 'trending' : $strategy;
+
+    echo '<div class="pre-modal-trigger-wrapper"><button id="pre-show-modal" class="button">✨ Show Recommendations</button></div>';
+    echo '<div id="pre-modal-content-wrapper" style="display:none;">' . do_shortcode('[pre_recommended strategy="' . $shop_strategy . '"]') . '</div>';
+}, 15);
+
+
+
+
 
