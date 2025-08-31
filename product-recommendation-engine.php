@@ -1,10 +1,13 @@
 <?php
-/*
-Plugin Name: Product Recommendation Engine
-Description: Tracks product views & purchases and shows simple recommendations on product and shop pages.
-Version: 1.3.0
-Author: Kazi , Mahedi , Akhi
-*/
+/**
+ * Plugin Name: Product Recommendation Engine
+ * Plugin URI: https://kazielegance.com/product-recommendation-engine
+ * Description: Tracks product views & purchases and shows simple recommendations on product and shop pages.
+ * Version: 1.2.0
+ * License: GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ */
+
 
 if (!defined('ABSPATH'))
     exit;
@@ -64,3 +67,10 @@ function pre_install()
 if (file_exists(PRE_PLUGIN_PATH . 'admin/settings.php')) {
     require_once PRE_PLUGIN_PATH . 'admin/settings.php';
 }
+add_action('wp_enqueue_scripts', function () {
+
+    // Only load modal script on shop/archive pages
+    if (is_shop() || is_product_category() || is_product_tag()) {
+        wp_enqueue_script('pre-modal-js', PRE_PLUGIN_URL . 'assets/modal.js', ['jquery'], '1.4.0', true);
+    }
+});
