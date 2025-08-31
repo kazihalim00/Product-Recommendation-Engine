@@ -8,7 +8,7 @@ add_action('admin_menu', function () {
     add_menu_page('Recommendations', 'Recommendations', 'manage_options', 'pre_recommendations', 'pre_render_settings_page', 'dashicons-chart-line', 25);
 });
 
-// Function to render the main settings page
+// Function to render the main settings pages
 function pre_render_settings_page()
 {
     ?>
