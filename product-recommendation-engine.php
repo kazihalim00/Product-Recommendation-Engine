@@ -70,3 +70,5 @@ function pre_install()
 if (file_exists(PRE_PLUGIN_PATH . 'admin/settings.php')) {
     require_once PRE_PLUGIN_PATH . 'admin/settings.php';
 }
+
+
